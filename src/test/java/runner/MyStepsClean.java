@@ -20,6 +20,8 @@ public class MyStepsClean {
     Response response;
     RequestInformation request = new RequestInformation();
     Map<String, String> data= new HashMap<>();
+    String email;
+    String password;
 
     @Given("I have access to Todo.ly")
     public void iHaveAccessToTodoLy() {
@@ -36,7 +38,7 @@ public class MyStepsClean {
 
     @Then("I expected response code {int}")
     public void iExpectedResponseCode(int expectedResponseCode) {
-        response.then().
+        response.then().log().all().
                 statusCode(expectedResponseCode);
     }
 
@@ -66,5 +68,18 @@ public class MyStepsClean {
 
         return value;
     }
+
+    @When("I send a request PUT to url {} with json and my new user")
+    public void iSendARequestPUTToUrlHttpTodoLyApiUserJsonWithJsonAndMyNewUser(String url, String body) {
+        response = given().auth().preemptive().basic(email, password).body(body).log().all().when().put(url);
+        response.then().log().all();
+    }
+    @Given("I have access to Todo.ly With Email {} And Password {}")
+    public void iHaveAccessToTodoLyWithEmailAndPassword(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+
 
 }
