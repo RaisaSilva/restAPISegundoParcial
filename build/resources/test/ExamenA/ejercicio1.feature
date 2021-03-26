@@ -9,9 +9,9 @@ Feature: Ejercicio 1
     When I send a request POST to url http://todo.ly/api/user.json with json
     """
     {
-      "Email": "raisa@silva.com",
-      "FullName": "Raisa Alejandra Silva Plata",
-      "Password": "pass12345678"
+      "Email": "raisa2@silva.com",
+      "FullName": "Raisa Silva",
+      "Password": "123456789"
     }
     """
     Then I expected response code 200
@@ -19,9 +19,9 @@ Feature: Ejercicio 1
     """
     {
       "Id": "IGNORE",
-      "Email": "raisa@silva.com",
+      "Email": "raisa2@silva.com",
       "Password": null,
-      "FullName": "Raisa Alejandra Silva Plata",
+      "FullName": "Raisa Silva",
       "TimeZone": 0,
       "IsProUser": false,
       "DefaultProjectId": "IGNORE",
@@ -34,10 +34,11 @@ Feature: Ejercicio 1
     }
     """
     And I get the property Id save on ID_USER
-    When I send a request PUT to url http://todo.ly/api/user/0.json with json
+    Given I have access to Todo.ly With Email raisa2@silva.com And Password 123456789
+    When I send a request PUT to url http://todo.ly/api/user/0.json with json and my new user
     """
     {
-      "FullName": "Raisa Alejandra Silva Plata"
+      "FullName": "Raisa Silva"
     }
     """
     Then I expected response code 200
@@ -45,9 +46,9 @@ Feature: Ejercicio 1
     """
     {
       "Id": ID_USER,
-      "Email": "raisa@silva.com",
+      "Email": "raisa2@silva.com",
       "Password": null,
-      "FullName": "Raisa Alejandra Silva Plata",
+      "FullName": "Raisa Silva",
       "TimeZone": 0,
       "IsProUser": false,
       "DefaultProjectId": "IGNORE",

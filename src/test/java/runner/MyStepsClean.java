@@ -1,15 +1,12 @@
 package runner;
 
-import configuration.Config;
-import factoryRequest.FactoryRequest;
-import factoryRequest.RequestInformation;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import org.junit.Assert;
-import utilsJson.JsonHelper;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +14,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class MyStepsClean {
+
     Response response;
     RequestInformation request = new RequestInformation();
     Map<String, String> data= new HashMap<>();
@@ -26,7 +24,6 @@ public class MyStepsClean {
     @Given("I have access to Todo.ly")
     public void iHaveAccessToTodoLy() {
     }
-
     @When("I send a request {} to url {} with json")
     public void iSendARequestPOSTToUrlHttpTodoLyApiProjectsJsonWithJson(String requestMethod, String url, String body) {
         request.setAuthType(Config.AUTH_BASIC);
@@ -36,9 +33,10 @@ public class MyStepsClean {
         response = FactoryRequest.make(requestMethod).send(request);
     }
 
+
     @Then("I expected response code {int}")
     public void iExpectedResponseCode(int expectedResponseCode) {
-        response.then().log().all().
+        response.then().
                 statusCode(expectedResponseCode);
     }
 
@@ -69,17 +67,21 @@ public class MyStepsClean {
         return value;
     }
 
+    @Given("I have access to Todo.ly with email {} and password {}")
+    public void iHaveAccessToTodoLyWithEmailCesarIllanesComAndPasswordPassword(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     @When("I send a request PUT to url {} with json and my new user")
     public void iSendARequestPUTToUrlHttpTodoLyApiUserJsonWithJsonAndMyNewUser(String url, String body) {
         response = given().auth().preemptive().basic(email, password).body(body).log().all().when().put(url);
         response.then().log().all();
     }
-    @Given("I have access to Todo.ly With Email {} And Password {}")
-    public void iHaveAccessToTodoLyWithEmailAndPassword(String email, String password) {
-        this.email = email;
-        this.password = password;
+
+    @When("I send a request DELETE to url {} with json and my new user")
+    public void iSendARequestDELETEToUrlHttpTodoLyApiUserJsonWithJsonAndMyNewUser(String url, String body) {
+        response = given().auth().preemptive().basic(email, password).body(body).log().all().when().delete(url);
+        response.then().log().all();
     }
-
-
-
 }

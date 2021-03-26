@@ -34,7 +34,7 @@ Feature: Ejercicio 1
     }
     """
     And I get the property Id save on ID_USER
-    Given I have access to Todo.ly With Email raisa1@silva.com And Password 12345678
+    Given I have access to Todo.ly With Email raisa2@silva.com And Password 123456789
     When I send a request PUT to url http://todo.ly/api/user/0.json with json and my new user
     """
     {
